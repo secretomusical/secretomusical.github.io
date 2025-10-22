@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106'></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secreto Musical</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-image: url('img/fondowebse.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: relative;
+      height: 18vh;
+      background-image: url('img/cabecera.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      white-space: nowrap;
+    }
+
+    .secreto {
+      color: white;
+      text-shadow: 0 0 15px #40E0D0, 0 0 30px #40E0D0, 0 0 45px #40E0D0;
+    }
+
+    .musical {
+      color: white;
+      text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4, 0 0 45px #ff69b4;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      gap: 20px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    .toolbar button {
+      background: transparent;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .toolbar button#chat-toggle {
+      color: #39FF14;
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 12px #39FF14, 0 0 20px rgba(57, 255, 20, 0.6);
+    }
+
+    .toolbar button#chat-toggle:hover {
+      background: rgba(57, 255, 20, 0.1);
+      box-shadow: 0 0 18px #39FF14, 0 0 30px rgba(57, 255, 20, 0.8);
+    }
+
+    /* Botón de Programación - Morado Neón */
+    .toolbar button#prog-toggle {
+      color: #DA70D6;
+      border: 2px solid #DA70D6;
+      box-shadow: 
+        0 0 12px #DA70D6,
+        0 0 20px rgba(218, 112, 214, 0.6);
+    }
+
+    .toolbar button#prog-toggle:hover {
+      background: rgba(218, 112, 214, 0.1);
+      box-shadow: 
+        0 0 18px #DA70D6,
+        0 0 30px rgba(218, 112, 214, 0.8);
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 30px 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .left-column {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .player-container,
+    .portada-dj,
+    .news-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      padding: 25px;
+      width: 100%;
+      backdrop-filter: blur(2px);
+      text-align: center;
+    }
+
+    .player-container {
+      border: 3px solid #ff69b4;
+      box-shadow: 0 0 20px #ff69b4, inset 0 0 20px #ff69b4;
+    }
+
+    .portada-dj {
+      border: 3px solid #ffff00;
+      box-shadow: 0 0 20px #ffff00, inset 0 0 20px #ffff00;
+    }
+
+    .portada-dj h2 {
+      color: #ffff00;
+      text-shadow: 0 0 10px #ffff00, 0 0 20px rgba(255, 255, 0, 0.7);
+      margin-bottom: 15px;
+    }
+
+    #sonic_dj {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #ffff00;
+      text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.7);
+      margin-top: 10px;
+      min-height: 1.5em;
+      animation: blink 1.5s infinite;
+    }
+
+    .news-container {
+      border: 3px solid #40E0D0;
+      box-shadow: 0 0 20px #40E0D0, inset 0 0 20px #40E0D0;
+    }
+
+    .player-container h2,
+    .news-container h2 {
+      margin-bottom: 15px;
+    }
+
+    .news-container h2 {
+      color: #40E0D0;
+    }
+
+    .news-item {
+      margin-bottom: 25px;
+      color: white;
+      line-height: 1.5;
+    }
+
+    .news-item h3 {
+      color: #40E0D0;
+      margin-bottom: 8px;
+    }
+
+    .news-item:not(:last-child) {
+      border-bottom: 1px solid #40E0D0;
+      padding-bottom: 25px;
+    }
+
+    #chat-container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      display: none;
+      border: 3px solid #39FF14;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #39FF14, 0 0 30px rgba(57, 255, 20, 0.6);
+      position: relative;
+    }
+
+    #chat-container iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(64, 224, 208, 0.5);
+    }
+
+    /* Contenedor de Programación - oculto por defecto */
+    #programming-section {
+      display: none;
+    }
+
+    .programming-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      margin: 30px auto 15px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      text-shadow: 
+        0 0 12px #DA70D6,
+        0 0 20px #DA70D6,
+        0 0 30px rgba(218, 112, 214, 0.7);
+    }
+
+    .programming-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 3px solid #DA70D6;
+      box-shadow: 
+        0 0 20px #DA70D6,
+        inset 0 0 20px #DA70D6;
+      border-radius: 12px;
+      padding: 25px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      justify-items: center;
+    }
+
+    .day-item {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .day-item img {
+      width: 100%;
+      max-width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border: 3px solid #DA70D6;
+      border-radius: 8px;
+      box-shadow: 
+        0 0 15px #DA70D6,
+        0 0 25px rgba(218, 112, 214, 0.6);
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .day-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .day-item span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 600;
+      color: #DA70D6;
+      text-shadow: 
+        0 0 8px #DA70D6,
+        0 0 14px rgba(218, 112, 214, 0.7);
+    }
+
+    /* Modal de imagen ampliada */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 3px solid #DA70D6;
+      box-shadow: 0 0 30px #DA70D6;
+    }
+
+    /* Botón de cierre fijo (para chat y programación) */
+    #close-overlay-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #FF0000;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px #FF0000, 0 0 20px rgba(255, 0, 0, 0.7);
+      z-index: 999;
+      transition: all 0.2s ease;
+    }
+
+    #close-overlay-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 16px #FF0000, 0 0 28px rgba(255, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    /* Botón de cierre dentro del modal (mantenido) */
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #FF0000;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px #FF0000, 0 0 20px rgba(255, 0, 0, 0.7);
+      z-index: 1001;
+      transition: all 0.2s ease;
+    }
+
+    .close-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 16px #FF0000, 0 0 28px rgba(255, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    #sonic_title {
+      margin-top: 20px;
+      font-size: 1.4rem;
+      color: white;
+      text-shadow: 0 0 12px #ff69b4, 0 0 20px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.7);
+      animation: blink 1.5s infinite;
+      font-weight: 600;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
+    }
+
+    .carousel-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      margin: 30px auto 15px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      text-shadow: 0 0 12px #40E0D0, 0 0 20px #40E0D0, 0 0 30px rgba(64, 224, 208, 0.7);
+    }
+
+    .carousel-container {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+      padding: 10px 0;
+      width: fit-content;
+      min-width: 100%;
+    }
+
+    .carousel-track:hover,
+    .carousel-track:active {
+      animation-play-state: paused;
+    }
+
+    .carousel-slide {
+      min-width: 200px;
+      height: 150px;
+      margin: 0;
+      border: 3px solid #40E0D0;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #40E0D0, 0 0 25px rgba(64, 224, 208, 0.6);
+      background-color: #000;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-2000px); } /* 10 × 200px = 2000px */
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+      }
+      .left-column,
+      .right-column {
+        width: 100%;
+        flex: none;
+      }
+      .player-container,
+      .portada-dj,
+      .news-container {
+        max-width: 500px;
+      }
+      h1 {
+        font-size: 2.2rem;
+        white-space: normal;
+      }
+      .carousel-title,
+      .programming-title {
+        font-size: 1.8rem;
+        margin: 25px auto 12px;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+      }
+      .carousel-slide {
+        min-width: 160px;
+        height: 120px;
+        margin: 0;
+      }
+      .programming-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        padding: 20px;
+      }
+      .day-item img {
+        max-width: 100px;
+        height: 100px;
+      }
+      #close-overlay-btn,
+      .close-btn {
+        top: 15px;
+        right: 15px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+      @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-1600px); } /* 10 × 160px = 1600px */
+      }
+      #sonic_title,
+      #sonic_dj {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      <span class="secreto">Secreto</span> <span class="musical">Musical</span>
+    </h1>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <button id="chat-toggle">Chat</button>
+    <button id="prog-toggle">Programación</button>
+  </div>
+
+  <main>
+    <div class="left-column">
+      <div class="player-container" id="music-player-container">
+        <div id="stream" style="width:auto; height:300px;"></div>
+        <div id="sonic_title"></div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="portada-dj">
+        <div id="sonic_dj"></div>
+        <div id="dj_profile"></div>
+      </div>
+
+      <div class="news-container">
+        <h2>Noticias y Anuncios</h2>
+        <div class="news-item">
+          <h3>¡Gran inauguración de Secreto Musical!</h3>
+          <p>Unete a la fiesta con nosotros".</p>
+        </div>
+        <div class="news-item">
+          <h3>¿Quieres formar parte de nuestro staff?
+</h3>
+          <p>Más información próximamente.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="chat-container">
+    <iframe 
+      src="https://chat.chatzona.org/index.html#nick=&channel=SecretoMusical" 
+      width="100%" 
+      height="500" 
+      frameborder="0"
+      loading="lazy"
+    ></iframe>
+  </div>
+
+  <div id="programming-section">
+    <h2 class="programming-title">Programación</h2>
+    <div class="programming-container">
+      <div class="day-item" data-img="img/lunes.jpg">
+        <img src="img/lunes.jpg" alt="Lunes">
+        <span>Lunes</span>
+      </div>
+      <div class="day-item" data-img="img/martes.jpg">
+        <img src="img/martes.jpg" alt="Martes">
+        <span>Martes</span>
+      </div>
+      <div class="day-item" data-img="img/miercoles.jpg">
+        <img src="img/miercoles.jpg" alt="Miércoles">
+        <span>Miércoles</span>
+      </div>
+      <div class="day-item" data-img="img/jueves.jpg">
+        <img src="img/jueves.jpg" alt="Jueves">
+        <span>Jueves</span>
+      </div>
+      <div class="day-item" data-img="img/viernes.jpg">
+        <img src="img/viernes.jpg" alt="Viernes">
+        <span>Viernes</span>
+      </div>
+      <div class="day-item" data-img="img/sabado.jpg">
+        <img src="img/sabado.jpg" alt="Sábado">
+        <span>Sábado</span>
+      </div>
+      <div class="day-item" data-img="img/domingo.jpg">
+        <img src="img/domingo.jpg" alt="Domingo">
+        <span>Domingo</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="image-modal" class="modal">
+    <button class="close-btn" id="close-modal">×</button>
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <!-- Botón de cierre fijo para chat y programación -->
+  <button id="close-overlay-btn">×</button>
+
+  <h2 class="carousel-title">Staff</h2>
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
+      <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
+      <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
+      <div class="carousel-slide"><img src="img/staff4.jpg" alt="Staff 4"></div>
+      <div class="carousel-slide"><img src="img/staff5.jpg" alt="Staff 5"></div>
+      <div class="carousel-slide"><img src="img/staff6.jpg" alt="Staff 6"></div>
+      <div class="carousel-slide"><img src="img/staff7.jpg" alt="Staff 7"></div>
+      <div class="carousel-slide"><img src="img/staff8.jpg" alt="Staff 8"></div>
+      <div class="carousel-slide"><img src="img/staff9.jpg" alt="Staff 9"></div>
+      <div class="carousel-slide"><img src="img/staff10.jpg" alt="Staff 10"></div>
+      <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
+      <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
+      <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
+      <div class="carousel-slide"><img src="img/staff4.jpg" alt="Staff 4"></div>
+      <div class="carousel-slide"><img src="img/staff5.jpg" alt="Staff 5"></div>
+      <div class="carousel-slide"><img src="img/staff6.jpg" alt="Staff 6"></div>
+      <div class="carousel-slide"><img src="img/staff7.jpg" alt="Staff 7"></div>
+      <div class="carousel-slide"><img src="img/staff8.jpg" alt="Staff 8"></div>
+      <div class="carousel-slide"><img src="img/staff9.jpg" alt="Staff 9"></div>
+      <div class="carousel-slide"><img src="img/staff10.jpg" alt="Staff 10"></div>
+    </div>
+  </div>
+
+  <footer>
+    Copyright © 2025 | Secreto Musical
+  </footer>
+
+  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
+  <script> 
+    $('#stream').lunaradio({     
+      streamurl: 'https://sonic.sistemahost.es/8004', 
+      radioname: '', 
+      coverimage: 'img/1761108655459.gif', 
+      onlycoverimage: false,     
+      userinterface: 'big',     
+      backgroundcolor: '#000000', 
+      fontcolor: '#ffffff',     
+      hightlightcolor: '#6c757d',     
+      fontname: 'Raleway', 
+      googlefont: 'Raleway:wght@100',     
+      fontratio: '0.4',     
+      scroll: 'true', 
+      coverstyle: 'animated',     
+      usevisualizer: 'real',     
+      visualizertype: '6', 
+      streamtype: 'shoutcast2',     
+      shoutcastpath: '/stream',     
+      shoutcastid: '1', 
+      autoplay: 'true',     
+      metadatainterval: '5000',     
+      volume: '100', 
+      usestreamcorsproxy: 'true'
+    }); 
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('chat-toggle');
+      const progToggleBtn = document.getElementById('prog-toggle');
+      const chatContainer = document.getElementById('chat-container');
+      const progSection = document.getElementById('programming-section');
+      const closeOverlayBtn = document.getElementById('close-overlay-btn');
+      const toolbar = document.getElementById('toolbar');
+
+      function updateCloseButton() {
+        const chatVisible = chatContainer.style.display === 'block';
+        const progVisible = progSection.style.display === 'block';
+        if (chatVisible || progVisible) {
+          closeOverlayBtn.style.display = 'flex';
+        } else {
+          closeOverlayBtn.style.display = 'none';
+        }
+      }
+
+      toggleBtn.addEventListener('click', function() {
+        const isVisible = chatContainer.style.display === 'block';
+        if (isVisible) {
+          chatContainer.style.display = 'none';
+          toggleBtn.textContent = 'Chat';
+        } else {
+          chatContainer.style.display = 'block';
+          toggleBtn.textContent = 'Ocultar Chat';
+          chatContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        updateCloseButton();
+      });
+
+      progToggleBtn.addEventListener('click', function() {
+        const isVisible = progSection.style.display === 'block';
+        if (isVisible) {
+          progSection.style.display = 'none';
+          progToggleBtn.textContent = 'Programación';
+        } else {
+          progSection.style.display = 'block';
+          progToggleBtn.textContent = 'Ocultar Programación';
+          progSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        updateCloseButton();
+      });
+
+      closeOverlayBtn.addEventListener('click', function() {
+        let wasClosed = false;
+
+        if (chatContainer.style.display === 'block') {
+          chatContainer.style.display = 'none';
+          toggleBtn.textContent = 'Chat';
+          wasClosed = true;
+        }
+        if (progSection.style.display === 'block') {
+          progSection.style.display = 'none';
+          progToggleBtn.textContent = 'Programación';
+          wasClosed = true;
+        }
+
+        if (wasClosed) {
+          toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        closeOverlayBtn.style.display = 'none';
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const dayItems = document.querySelectorAll('.day-item');
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      const closeBtn = document.getElementById('close-modal');
+
+      dayItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const fullImg = this.getAttribute('data-img');
+          modalImg.src = fullImg;
+          modal.style.display = 'flex';
+        });
+      });
+
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
