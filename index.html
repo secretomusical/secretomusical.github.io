@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Secreto Musical</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -408,9 +409,8 @@
       animation-play-state: paused;
     }
 
-    /* 🔑 Cambio clave: usar width fijo en lugar de min-width */
     .carousel-slide {
-      width: 200px; /* ← fijo */
+      width: 200px;
       height: 150px;
       margin: 0;
       border: 3px solid #40E0D0;
@@ -434,7 +434,6 @@
       -webkit-user-drag: none;
     }
 
-    /* 🔑 Animación ajustada a 10 slides × 200px = 2000px */
     @keyframes scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-2000px); }
@@ -477,9 +476,8 @@
         width: 100vw;
         margin-left: calc(-50vw + 50%);
       }
-      /* 🔑 En móvil: ancho fijo de 160px */
       .carousel-slide {
-        width: 160px; /* ← fijo */
+        width: 160px;
         height: 120px;
         margin: 0;
       }
@@ -499,7 +497,6 @@
         height: 28px;
         font-size: 16px;
       }
-      /* 🔑 Animación móvil: 10 × 160px = 1600px */
       @keyframes scroll {
         0% { transform: translateX(0); }
         100% { transform: translateX(-1600px); }
