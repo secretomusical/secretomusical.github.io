@@ -400,6 +400,7 @@
       padding: 10px 0;
       width: fit-content;
       min-width: 100%;
+      will-change: transform;
     }
 
     .carousel-track:hover,
@@ -407,8 +408,9 @@
       animation-play-state: paused;
     }
 
+    /* 🔑 Cambio clave: usar width fijo en lugar de min-width */
     .carousel-slide {
-      min-width: 200px;
+      width: 200px; /* ← fijo */
       height: 150px;
       margin: 0;
       border: 3px solid #40E0D0;
@@ -432,9 +434,10 @@
       -webkit-user-drag: none;
     }
 
+    /* 🔑 Animación ajustada a 10 slides × 200px = 2000px */
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-2000px); } /* 10 × 200px = 2000px */
+      100% { transform: translateX(-2000px); }
     }
 
     footer {
@@ -474,8 +477,9 @@
         width: 100vw;
         margin-left: calc(-50vw + 50%);
       }
+      /* 🔑 En móvil: ancho fijo de 160px */
       .carousel-slide {
-        min-width: 160px;
+        width: 160px; /* ← fijo */
         height: 120px;
         margin: 0;
       }
@@ -495,9 +499,10 @@
         height: 28px;
         font-size: 16px;
       }
+      /* 🔑 Animación móvil: 10 × 160px = 1600px */
       @keyframes scroll {
         0% { transform: translateX(0); }
-        100% { transform: translateX(-1600px); } /* 10 × 160px = 1600px */
+        100% { transform: translateX(-1600px); }
       }
       #sonic_title,
       #sonic_dj {
