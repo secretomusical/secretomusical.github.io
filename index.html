@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Secreto Musical</title>
   <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="  https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -90,7 +90,6 @@
       box-shadow: 0 0 18px #39FF14, 0 0 30px rgba(57, 255, 20, 0.8);
     }
 
-    /* Botón de Programación - Morado Neón */
     .toolbar button#prog-toggle {
       color: #DA70D6;
       border: 2px solid #DA70D6;
@@ -107,9 +106,8 @@
     }
 
     main {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 30px 15px;
       max-width: 1000px;
@@ -117,22 +115,22 @@
       width: 100%;
     }
 
-    .left-column {
-      flex: 1;
-      min-width: 0;
-    }
+    /* Orden en escritorio usando grid-area */
+    .player-container { grid-area: player; }
+    .portada-dj { grid-area: dj; }
+    .news-container { grid-area: news; }
+    .socials-container { grid-area: socials; }
 
-    .right-column {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      flex: 1;
-      min-width: 0;
+    main {
+      grid-template-areas:
+        "player dj"
+        "socials news";
     }
 
     .player-container,
     .portada-dj,
-    .news-container {
+    .news-container,
+    .socials-container {
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 12px;
       padding: 25px;
@@ -158,7 +156,7 @@
     }
 
     #sonic_dj {
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       font-weight: 600;
       color: #ffff00;
       text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.7);
@@ -167,25 +165,41 @@
       animation: blink 1.5s infinite;
     }
 
+    /* Imagen del DJ al 70% */
+    #dj_profile img {
+      width: 70%;
+      height: 70%;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #ffff00, 0 0 20px rgba(255, 255, 0, 0.6);
+    }
+
     .news-container {
       border: 3px solid #40E0D0;
       box-shadow: 0 0 20px #40E0D0, inset 0 0 20px #40E0D0;
     }
 
+    .socials-container {
+      border: 3px solid white;
+      box-shadow: 
+        0 0 20px white,
+        inset 0 0 20px white;
+      margin-top: 0;
+    }
+
     .player-container h2,
-    .news-container h2 {
+    .news-container h2,
+    .socials-container h2 {
       margin-bottom: 15px;
     }
 
-    /* Título "Noticias y Anuncios" con borde turquesa + brillo exterior blanco */
-    .news-container h2 {
+    .news-container h2,
+    .socials-container h2 {
       color: white;
       text-shadow: 
-        /* Borde turquesa (simulado) */
         0 0 2px #40E0D0,
         0 0 4px #40E0D0,
         0 0 6px #40E0D0,
-        /* Brillo exterior blanco */
         0 0 12px white,
         0 0 20px white,
         0 0 30px rgba(255, 255, 255, 0.7);
@@ -207,6 +221,83 @@
       padding-bottom: 25px;
     }
 
+    .socials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      /* Estilos base sobrescritos por clases específicas */
+    }
+
+    .social-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* 🔹 Estilos específicos para cada red social */
+    .social-whatsapp {
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 12px #39FF14, 0 0 20px rgba(57, 255, 20, 0.7);
+    }
+
+    .social-whatsapp img {
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 10px #39FF14, 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+
+    .social-whatsapp span {
+      color: #39FF14;
+      text-shadow: 
+        0 0 8px #39FF14,
+        0 0 14px rgba(57, 255, 20, 0.8);
+    }
+
+    .social-telegram {
+      border: 2px solid #00FFFF;
+      box-shadow: 0 0 12px #00FFFF, 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+
+    .social-telegram img {
+      border: 2px solid #00FFFF;
+      box-shadow: 0 0 10px #00FFFF, 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .social-telegram span {
+      color: #00FFFF;
+      text-shadow: 
+        0 0 8px #00FFFF,
+        0 0 14px rgba(0, 255, 255, 0.8);
+    }
+
+    .social-teams {
+      border: 2px solid #BF00FF;
+      box-shadow: 0 0 12px #BF00FF, 0 0 20px rgba(191, 0, 255, 0.7);
+    }
+
+    .social-teams img {
+      border: 2px solid #BF00FF;
+      box-shadow: 0 0 10px #BF00FF, 0 0 15px rgba(191, 0, 255, 0.5);
+    }
+
+    .social-teams span {
+      color: #BF00FF;
+      text-shadow: 
+        0 0 8px #BF00FF,
+        0 0 14px rgba(191, 0, 255, 0.8);
+    }
+
     #chat-container {
       width: 90%;
       max-width: 1000px;
@@ -226,12 +317,10 @@
       box-shadow: 0 0 20px rgba(64, 224, 208, 0.5);
     }
 
-    /* Contenedor de Programación - oculto por defecto */
     #programming-section {
       display: none;
     }
 
-    /* Título "Staff" con borde turquesa + brillo exterior blanco */
     .carousel-title {
       font-size: 2.2rem;
       font-weight: 700;
@@ -241,17 +330,14 @@
       width: 100vw;
       margin-left: calc(-50vw + 50%);
       text-shadow: 
-        /* Borde turquesa (simulado) */
         0 0 2px #40E0D0,
         0 0 4px #40E0D0,
         0 0 6px #40E0D0,
-        /* Brillo exterior blanco */
         0 0 12px white,
         0 0 20px white,
         0 0 30px rgba(255, 255, 255, 0.7);
     }
 
-    /* Título "Programación" sin cambios (morado) */
     .programming-title {
       font-size: 2.2rem;
       font-weight: 700;
@@ -316,7 +402,6 @@
         0 0 14px rgba(218, 112, 214, 0.7);
     }
 
-    /* Modal de imagen ampliada */
     .modal {
       display: none;
       position: fixed;
@@ -338,7 +423,6 @@
       box-shadow: 0 0 30px #DA70D6;
     }
 
-    /* Botón de cierre fijo (para chat y programación) */
     #close-overlay-btn {
       position: fixed;
       top: 20px;
@@ -366,7 +450,6 @@
       transform: scale(1.1);
     }
 
-    /* Botón de cierre dentro del modal (mantenido) */
     .close-btn {
       position: absolute;
       top: 20px;
@@ -469,26 +552,33 @@
       margin-left: calc(-50vw + 50%);
     }
 
+    /* --- Responsive: Móviles --- */
     @media (max-width: 900px) {
       main {
+        display: flex;
         flex-direction: column;
-        align-items: center;
+        grid-template-areas: none;
         padding: 20px 10px;
       }
-      .left-column,
-      .right-column {
-        width: 100%;
-        flex: none;
-      }
+
       .player-container,
       .portada-dj,
-      .news-container {
+      .news-container,
+      .socials-container {
         max-width: 500px;
+        width: 100%;
+        margin-bottom: 20px;
       }
+
       h1 {
         font-size: 2.2rem;
         white-space: normal;
       }
+
+      #dj_profile img {
+        width: 70%;
+      }
+
       .carousel-title,
       .programming-title {
         font-size: 1.8rem;
@@ -496,19 +586,33 @@
         width: 100vw;
         margin-left: calc(-50vw + 50%);
       }
+
       .carousel-slide {
         width: 200px;
         height: 150px;
         margin-right: 16px;
       }
+
       .programming-container {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         padding: 20px;
       }
+
       .day-item img {
         max-width: 100px;
         height: 100px;
       }
+
+      .social-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .social-item img {
+        width: 60px;
+        height: 60px;
+      }
+
       #close-overlay-btn,
       .close-btn {
         top: 15px;
@@ -517,10 +621,12 @@
         height: 28px;
         font-size: 16px;
       }
+
       @keyframes scroll {
         0% { transform: translateX(0); }
         100% { transform: translateX(-2160px); }
       }
+
       #sonic_title,
       #sonic_dj {
         font-size: 1.2rem;
@@ -541,36 +647,56 @@
   </div>
 
   <main>
-    <div class="left-column">
-      <div class="player-container" id="music-player-container">
-        <div id="stream" style="width:auto; height:300px;"></div>
-        <div id="sonic_title"></div>
+    <div class="player-container" id="music-player-container">
+      <div id="stream" style="width:auto; height:300px;"></div>
+      <div id="sonic_title"></div>
+    </div>
+
+    <div class="portada-dj">
+      <div id="sonic_dj"></div>
+      <div id="dj_profile"></div>
+    </div>
+
+    <div class="news-container">
+      <h2>Noticias y Anuncios</h2>
+      <div class="news-item">
+        <h3>¡Gran inauguración de Secreto Musical!</h3>
+        <p>Unete a la fiesta con nosotros".</p>
+      </div>
+      <div class="news-item">
+        <h3>¿Quieres formar parte de nuestro staff?</h3>
+        <p>Más información próximamente.</p>
       </div>
     </div>
 
-    <div class="right-column">
-      <div class="portada-dj">
-        <div id="sonic_dj"></div>
-        <div id="dj_profile"></div>
-      </div>
-
-      <div class="news-container">
-        <h2>Noticias y Anuncios</h2>
-        <div class="news-item">
-          <h3>¡Gran inauguración de Secreto Musical!</h3>
-          <p>Unete a la fiesta con nosotros".</p>
-        </div>
-        <div class="news-item">
-          <h3>¿Quieres formar parte de nuestro staff?</h3>
-          <p>Más información próximamente.</p>
-        </div>
+    <div class="socials-container">
+      <h2>Redes Sociales</h2>
+      <div class="socials-list">
+        <a href="https://wa.me/tu_numero_aqui" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-whatsapp">
+            <img src="img/red1.png" alt="Whatsapp">
+            <span>Whatsapp</span>
+          </div>
+        </a>
+        <a href="https://t.me/tu_usuario_aqui" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-telegram">
+            <img src="img/red2.png" alt="Telegram">
+            <span>Telegram</span>
+          </div>
+        </a>
+        <a href="https://teams.microsoft.com/l/chat/0/0?users=tu_correo_aqui" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-teams">
+            <img src="img/red3.png" alt="Microsoft Teams">
+            <span>Microsoft Teams</span>
+          </div>
+        </a>
       </div>
     </div>
   </main>
 
   <div id="chat-container">
     <iframe 
-      src="https://chat.chatzona.org/index.html#nick=&channel=SecretoMusical" 
+      src="  https://chat.chatzona.org/index.html#nick=&channel=SecretoMusical" 
       width="100%" 
       height="500" 
       frameborder="0"
@@ -617,7 +743,6 @@
     <img class="modal-content" id="modal-img">
   </div>
 
-  <!-- Botón de cierre fijo para chat y programación -->
   <button id="close-overlay-btn">×</button>
 
   <h2 class="carousel-title">Staff</h2>
@@ -650,11 +775,11 @@
     Copyright © 2025 | Secreto Musical
   </footer>
 
-  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
-  <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
+  <script src="  https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js  "></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js  "></script>
   <script> 
     $('#stream').lunaradio({     
-      streamurl: 'https://sonic.sistemahost.es/8004', 
+      streamurl: 'https://sonic.sistemahost.es/8004  ', 
       radioname: '', 
       coverimage: 'img/fondorepro.gif', 
       onlycoverimage: false,     
