@@ -177,8 +177,10 @@
       margin-bottom: 15px;
     }
 
+    /* Título "Noticias y Anuncios" en turquesa con brillo exterior turquesa */
     .news-container h2 {
       color: #40E0D0;
+      text-shadow: 0 0 12px #40E0D0, 0 0 20px #40E0D0, 0 0 30px rgba(64, 224, 208, 0.7);
     }
 
     .news-item {
@@ -221,6 +223,19 @@
       display: none;
     }
 
+    /* Título "Staff" en turquesa con brillo exterior turquesa */
+    .carousel-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #40E0D0;
+      text-align: center;
+      margin: 30px auto 15px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      text-shadow: 0 0 12px #40E0D0, 0 0 20px #40E0D0, 0 0 30px rgba(64, 224, 208, 0.7);
+    }
+
+    /* Título "Programación" sin cambios (morado) */
     .programming-title {
       font-size: 2.2rem;
       font-weight: 700;
@@ -375,17 +390,6 @@
     @keyframes blink {
       0%, 49% { opacity: 1; }
       50%, 100% { opacity: 0.3; }
-    }
-
-    .carousel-title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: white;
-      text-align: center;
-      margin: 30px auto 15px;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      text-shadow: 0 0 12px #40E0D0, 0 0 20px #40E0D0, 0 0 30px rgba(64, 224, 208, 0.7);
     }
 
     .carousel-container {
