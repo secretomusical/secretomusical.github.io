@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Secreto Musical</title>
   <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-  <link href="  https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -48,16 +48,28 @@
     h1 {
       font-size: 2.8rem;
       white-space: nowrap;
+      display: inline-block;
     }
 
-    .secreto {
+    /* Estilos para las letras animadas */
+    .letter {
+      display: inline-block;
+      opacity: 0.3;
+    }
+
+    .letter.secreto {
       color: white;
       text-shadow: 0 0 15px #40E0D0, 0 0 30px #40E0D0, 0 0 45px #40E0D0;
     }
 
-    .musical {
+    .letter.musical {
       color: white;
       text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4, 0 0 45px #ff69b4;
+    }
+
+    @keyframes letterBlink {
+      0%, 49% { opacity: 0.3; }
+      50%, 100% { opacity: 1; }
     }
 
     .toolbar {
@@ -115,7 +127,6 @@
       width: 100%;
     }
 
-    /* Orden en escritorio usando grid-area */
     .player-container { grid-area: player; }
     .portada-dj { grid-area: dj; }
     .news-container { grid-area: news; }
@@ -165,7 +176,6 @@
       animation: blink 1.5s infinite;
     }
 
-    /* Imagen del DJ al 70% */
     #dj_profile img {
       width: 70%;
       height: 70%;
@@ -236,7 +246,6 @@
       padding: 10px;
       background: rgba(0, 0, 0, 0.3);
       border-radius: 8px;
-      /* Estilos base sobrescritos por clases específicas */
     }
 
     .social-item img {
@@ -246,7 +255,6 @@
       border-radius: 8px;
     }
 
-    /* 🔹 Estilos específicos para cada red social */
     .social-whatsapp {
       border: 2px solid #39FF14;
       box-shadow: 0 0 12px #39FF14, 0 0 20px rgba(57, 255, 20, 0.7);
@@ -552,7 +560,6 @@
       margin-left: calc(-50vw + 50%);
     }
 
-    /* --- Responsive: Móviles --- */
     @media (max-width: 900px) {
       main {
         display: flex;
@@ -636,9 +643,7 @@
 </head>
 <body>
   <header>
-    <h1>
-      <span class="secreto">Secreto</span> <span class="musical">Musical</span>
-    </h1>
+    <h1 id="animated-title"></h1>
   </header>
 
   <div class="toolbar" id="toolbar">
@@ -696,7 +701,7 @@
 
   <div id="chat-container">
     <iframe 
-      src="  https://chat.chatzona.org/index.html#nick=&channel=SecretoMusical" 
+      src="https://chat.chatzona.org/index.html#nick=&channel=SecretoMusical" 
       width="100%" 
       height="500" 
       frameborder="0"
@@ -775,11 +780,11 @@
     Copyright © 2025 | Secreto Musical
   </footer>
 
-  <script src="  https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js  "></script>
-  <script src="https://sistemahost.com/playergenerator/js/player.js  "></script>
+  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
   <script> 
     $('#stream').lunaradio({     
-      streamurl: 'https://sonic.sistemahost.es/8004  ', 
+      streamurl: 'https://sonic.sistemahost.es/8004', 
       radioname: '', 
       coverimage: 'img/fondorepro.gif', 
       onlycoverimage: false,     
@@ -901,6 +906,42 @@
         if (e.key === 'Escape' && modal.style.display === 'flex') {
           modal.style.display = 'none';
         }
+      });
+    });
+  </script>
+
+  <!-- Script para la animación del título -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const titleElement = document.getElementById('animated-title');
+      const fullText = "Secreto Musical";
+      const words = fullText.split(' ');
+      const totalLetters = fullText.length;
+      let html = '';
+
+      // Crear spans para cada letra
+      for (let i = 0; i < fullText.length; i++) {
+        const char = fullText[i];
+        if (char === ' ') {
+          html += '<span class="letter">&nbsp;</span>';
+        } else {
+          const wordClass = i < words[0].length ? 'secreto' : 'musical';
+          html += `<span class="letter ${wordClass}">${char}</span>`;
+        }
+      }
+
+      titleElement.innerHTML = html;
+      const letters = titleElement.querySelectorAll('.letter');
+
+      // Aplicar animación secuencial
+      letters.forEach((letter, index) => {
+        setTimeout(() => {
+          letter.style.animation = `letterBlink 0.6s infinite`;
+          setTimeout(() => {
+            letter.style.animation = 'none';
+            letter.style.opacity = '1';
+          }, 1200 + index * 150); // Cada letra deja de parpadear después de su turno
+        }, index * 150);
       });
     });
   </script>
