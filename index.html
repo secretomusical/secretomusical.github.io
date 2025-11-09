@@ -246,129 +246,136 @@
     }
 
     .socials-list {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       margin-top: 15px;
     }
 
     .social-item {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      gap: 15px;
+      justify-content: center;
+      gap: 8px;
       padding: 10px;
       background: rgba(0, 0, 0, 0.3);
       border-radius: 8px;
     }
 
     .social-item img {
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       object-fit: cover;
       border-radius: 8px;
     }
 
     .social-whatsapp {
       border: 2px solid #39FF14;
-      box-shadow: 0 0 12px #39FF14, 0 0 20px rgba(57, 255, 20, 0.7);
+      box-shadow: 0 0 10px #39FF14, 0 0 16px rgba(57, 255, 20, 0.6);
     }
 
     .social-whatsapp img {
       border: 2px solid #39FF14;
-      box-shadow: 0 0 10px #39FF14, 0 0 15px rgba(57, 255, 20, 0.5);
+      box-shadow: 0 0 8px #39FF14, 0 0 12px rgba(57, 255, 20, 0.5);
     }
 
     .social-whatsapp span {
       color: #39FF14;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #39FF14,
-        0 0 14px rgba(57, 255, 20, 0.8);
+        0 0 6px #39FF14,
+        0 0 10px rgba(57, 255, 20, 0.8);
     }
 
     .social-telegram {
       border: 2px solid #00FFFF;
-      box-shadow: 0 0 12px #00FFFF, 0 0 20px rgba(0, 255, 255, 0.7);
+      box-shadow: 0 0 10px #00FFFF, 0 0 16px rgba(0, 255, 255, 0.6);
     }
 
     .social-telegram img {
       border: 2px solid #00FFFF;
-      box-shadow: 0 0 10px #00FFFF, 0 0 15px rgba(0, 255, 255, 0.5);
+      box-shadow: 0 0 8px #00FFFF, 0 0 12px rgba(0, 255, 255, 0.5);
     }
 
     .social-telegram span {
       color: #00FFFF;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #00FFFF,
-        0 0 14px rgba(0, 255, 255, 0.8);
+        0 0 6px #00FFFF,
+        0 0 10px rgba(0, 255, 255, 0.8);
     }
 
     .social-teams {
       border: 2px solid #BF00FF;
-      box-shadow: 0 0 12px #BF00FF, 0 0 20px rgba(191, 0, 255, 0.7);
+      box-shadow: 0 0 10px #BF00FF, 0 0 16px rgba(191, 0, 255, 0.6);
     }
 
     .social-teams img {
       border: 2px solid #BF00FF;
-      box-shadow: 0 0 10px #BF00FF, 0 0 15px rgba(191, 0, 255, 0.5);
+      box-shadow: 0 0 8px #BF00FF, 0 0 12px rgba(191, 0, 255, 0.5);
     }
 
     .social-teams span {
       color: #BF00FF;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #BF00FF,
-        0 0 14px rgba(191, 0, 255, 0.8);
+        0 0 6px #BF00FF,
+        0 0 10px rgba(191, 0, 255, 0.8);
     }
 
     .social-tiktok {
       border: 2px solid #000000;
-      box-shadow: 0 0 12px #000000, 0 0 20px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 10px #000000, 0 0 16px rgba(0, 0, 0, 0.6);
     }
 
     .social-tiktok img {
       border: 2px solid #000000;
-      box-shadow: 0 0 10px #000000, 0 0 15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 8px #000000, 0 0 12px rgba(0, 0, 0, 0.5);
     }
 
     .social-tiktok span {
       color: white;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #000000,
-        0 0 14px rgba(0, 0, 0, 0.8);
+        0 0 6px #000000,
+        0 0 10px rgba(0, 0, 0, 0.8);
     }
 
     .social-instagram {
       border: 2px solid #E1306C;
-      box-shadow: 0 0 12px #E1306C, 0 0 20px rgba(225, 48, 108, 0.7);
+      box-shadow: 0 0 10px #E1306C, 0 0 16px rgba(225, 48, 108, 0.6);
     }
 
     .social-instagram img {
       border: 2px solid #E1306C;
-      box-shadow: 0 0 10px #E1306C, 0 0 15px rgba(225, 48, 108, 0.5);
+      box-shadow: 0 0 8px #E1306C, 0 0 12px rgba(225, 48, 108, 0.5);
     }
 
     .social-instagram span {
       color: #E1306C;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #E1306C,
-        0 0 14px rgba(225, 48, 108, 0.8);
+        0 0 6px #E1306C,
+        0 0 10px rgba(225, 48, 108, 0.8);
     }
 
     .social-facebook {
       border: 2px solid #3b5998;
-      box-shadow: 0 0 12px #3b5998, 0 0 20px rgba(59, 89, 152, 0.7);
+      box-shadow: 0 0 10px #3b5998, 0 0 16px rgba(59, 89, 152, 0.6);
     }
 
     .social-facebook img {
       border: 2px solid #3b5998;
-      box-shadow: 0 0 10px #3b5998, 0 0 15px rgba(59, 89, 152, 0.5);
+      box-shadow: 0 0 8px #3b5998, 0 0 12px rgba(59, 89, 152, 0.5);
     }
 
     .social-facebook span {
       color: #3b5998;
+      font-size: 0.9rem;
       text-shadow: 
-        0 0 8px #3b5998,
-        0 0 14px rgba(59, 89, 152, 0.8);
+        0 0 6px #3b5998,
+        0 0 10px rgba(59, 89, 152, 0.8);
     }
 
     #chat-container {
@@ -688,14 +695,13 @@
         height: 100px;
       }
 
-      .social-item {
-        flex-direction: column;
-        text-align: center;
+      .socials-list {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .social-item img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
       }
 
       #close-overlay-btn,
@@ -774,7 +780,6 @@
             <span>Microsoft Teams</span>
           </div>
         </a>
-        <!-- Nuevas redes sociales -->
         <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-tiktok">
             <img src="img/red4.png" alt="TikTok">
