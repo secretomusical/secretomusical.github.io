@@ -738,8 +738,14 @@
 
   <main>
     <div class="player-container" id="music-player-container">
-      <div id="stream" style="width:auto; height:300px;"></div>
-      <div id="sonic_title"></div>
+<iframe
+  src="https://secretomusical.com/reproductor/"
+  width="100%"
+  height="380"
+  frameborder="0"
+  allow="autoplay"
+  scrolling="no"
+></iframe>
     </div>
 
     <div class="portada-dj">
@@ -898,30 +904,8 @@
   <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
   <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
   <script> 
-    $('#stream').lunaradio({     
-      streamurl: 'https://sonic.sistemahost.es/8004', 
-      radioname: '', 
-      coverimage: 'img/fondorepro.gif', 
-      onlycoverimage: false,     
-      userinterface: 'big',     
-      backgroundcolor: '#000000', 
-      fontcolor: '#ffffff',     
-      hightlightcolor: '#ff69b4',     
-      fontname: 'Raleway', 
-      googlefont: 'Raleway:wght@100',     
-      fontratio: '0.4',     
-      scroll: 'true', 
-      coverstyle: 'animated',     
-      usevisualizer: 'real',     
-      visualizertype: '6', 
-      streamtype: 'shoutcast2',     
-      shoutcastpath: '/stream',     
-      shoutcastid: '1', 
-      autoplay: 'true',     
-      metadatainterval: '5000',     
-      volume: '100', 
-      usestreamcorsproxy: 'true'
-    }); 
+    // El reproductor anterior ha sido reemplazado, así que este script ya no se aplica.
+    // Puedes eliminarlo si ya no lo usas.
   </script>
 
   <script>
@@ -1058,4 +1042,3 @@
   </script>
 </body>
 </html>
-
