@@ -633,8 +633,11 @@
     }
 
     @media (max-width: 900px) {
+      /* 🔽 Cabecera ajustada al contenido */
       header {
-        height: 26vh;
+        height: auto; /* Elimina el alto fijo */
+        padding: 15px 10px; /* Espacio ajustado */
+        justify-content: center; /* Mantiene el centrado vertical */
       }
 
       h1 {
@@ -658,11 +661,11 @@
         padding: 20px 10px;
       }
 
-      /* 🔽 Ajustes clave para el reproductor en móviles */
+      /* 🔽 Reproductor al 95% en móviles */
       .player-container {
-        max-width: none; /* Elimina el límite */
+        max-width: none;
         width: 100%;
-        padding: 20px 0; /* Reduce padding vertical para más espacio */
+        padding: 20px 0;
         margin-bottom: 20px;
       }
 
