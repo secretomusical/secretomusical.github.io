@@ -658,20 +658,27 @@
         padding: 20px 10px;
       }
 
-      .player-container,
+      /* 🔽 Ajustes clave para el reproductor en móviles */
+      .player-container {
+        max-width: none; /* Elimina el límite */
+        width: 100%;
+        padding: 20px 0; /* Reduce padding vertical para más espacio */
+        margin-bottom: 20px;
+      }
+
+      .player-container iframe {
+        width: 95% !important;
+        height: 380px;
+        margin: 0 auto;
+        display: block;
+      }
+
       .portada-dj,
       .news-container,
       .socials-container {
         max-width: 500px;
         width: 100%;
         margin-bottom: 20px;
-      }
-
-      /* 🔽 Cambio solicitado: reproductor al 95% en móviles */
-      .player-container iframe {
-        width: 95% !important;
-        margin: 0 auto;
-        display: block;
       }
 
       #dj_profile img {
