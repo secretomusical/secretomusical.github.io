@@ -632,12 +632,30 @@
       margin-left: calc(-50vw + 50%);
     }
 
+    /* Contenedor responsive para iframes */
+    .responsive-embed {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .responsive-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     @media (max-width: 900px) {
-      /* 🔽 Cabecera ajustada al contenido */
       header {
-        height: auto; /* Elimina el alto fijo */
-        padding: 15px 10px; /* Espacio ajustado */
-        justify-content: center; /* Mantiene el centrado vertical */
+        height: auto;
+        padding: 15px 10px;
+        justify-content: center;
       }
 
       h1 {
@@ -661,19 +679,18 @@
         padding: 20px 10px;
       }
 
-      /* 🔽 Reproductor al 95% en móviles */
       .player-container {
         max-width: none;
         width: 100%;
-        padding: 20px 0;
+        padding: 15px 0;
         margin-bottom: 20px;
       }
 
-      .player-container iframe {
-        width: 95% !important;
-        height: 380px;
+      /* 🔽 Contenedor del reproductor en móviles: 95% del ancho */
+      .player-container .responsive-embed {
+        width: 95%;
         margin: 0 auto;
-        display: block;
+        padding-bottom: 60%; /* Ajustado para que no se corte en móviles */
       }
 
       .portada-dj,
@@ -755,14 +772,14 @@
 
   <main>
     <div class="player-container" id="music-player-container">
-<iframe
-  src="https://secretomusical.com/reproductor/"
-  width="100%"
-  height="380"
-  frameborder="0"
-  allow="autoplay"
-  scrolling="no"
-></iframe>
+      <div class="responsive-embed">
+        <iframe
+          src="https://secretomusical.com/reproductor/"
+          frameborder="0"
+          allow="autoplay"
+          scrolling="no"
+        ></iframe>
+      </div>
     </div>
 
     <div class="portada-dj">
