@@ -1,434 +1,1096 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106'></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reproductor Secreto Musical</title>
-  <!-- Widget de Sonic -->
-  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=445'></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <!-- Fuente Quicksand -->
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Secreto Musical: radio en línea con programación diaria, DJ en vivo, chat. ¡Secreto Musical donde la música te hace renacer!">
+  <title>Secreto Musical</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --neon-turquoise: #00ffff;
-      --accent-color: #ff69b4;
-      --overload-pink: rgba(255, 182, 193, 0.7); /* ✅ Más visible: opacidad 0.7 */
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
-      background: transparent;
+      background-image: url('img/fondowebse.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
       color: white;
-      font-family: 'Quicksand', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Intro overlay styles */
+    #intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.95);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      z-index: 10000;
     }
 
-    .cyber-player {
+    #intro-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(64, 224, 208, 0.7);
+    }
+
+    header {
       position: relative;
-      width: 100%;
-      max-width: 480px;
-      border-radius: 20px;
-      padding: 25px;
-      text-align: center;
-      overflow: hidden;
-      background: transparent;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-      border: 1px solid rgba(0, 255, 255, 0.3);
-    }
-
-    .player-background {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('https://raw.githubusercontent.com/secretomusical/secretomusical.github.io/main/img/fondowebse.png');
+      /* Altura fija eliminada — ahora se ajusta al contenido */
+      background-image: url('img/cabecera.png');
       background-size: cover;
       background-position: center;
-      filter: blur(1px) brightness(1) contrast(1.05);
-      z-index: -1;
-      opacity: 1;
-      transition: opacity 0.6s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 20px 15px; /* Espaciado vertical reducido y consistente */
     }
 
-    .visualizer {
+    h1 {
+      font-size: 2.8rem;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    #subtitle {
+      font-size: 1.05rem;
+      margin-top: 8px;
+      color: white;
+      text-shadow: 
+        0 0 8px #40E0D0,
+        0 0 16px #40E0D0,
+        0 0 24px rgba(64, 224, 208, 0.7);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .letter {
+      display: inline-block;
+      opacity: 0.3;
+    }
+
+    .letter.secreto {
+      color: white;
+      text-shadow: 0 0 15px #40E0D0, 0 0 30px #40E0D0, 0 0 45px #40E0D0;
+    }
+
+    .letter.musical {
+      color: white;
+      text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4, 0 0 45px #ff69b4;
+    }
+
+    @keyframes letterBlink {
+      0%, 49% { opacity: 0.3; }
+      50%, 100% { opacity: 1; }
+    }
+
+    .toolbar {
       display: flex;
       justify-content: center;
-      align-items: flex-end;
-      height: 80px;
-      gap: 3px;
-      margin: 15px 0 20px;
-      width: 100%;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-      flex-wrap: nowrap;
+      padding: 15px 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      gap: 20px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
     }
 
-    .freq-bar {
-      width: 10px;
-      min-width: 10px;
-      background: var(--neon-turquoise);
-      border-radius: 4px 4px 0 0;
-      box-shadow: 0 0 6px var(--neon-turquoise);
-      transition: height 0.015s cubic-bezier(0.1, 0.9, 0.2, 1);
-    }
-
-    .freq-bar:nth-child(even) {
-      background: var(--accent-color);
-      box-shadow: 0 0 6px var(--accent-color);
-    }
-
-    /* ✨ Overload: ahora más visible pero suave */
-    .freq-bar.overload {
-      box-shadow: 
-        0 0 10px var(--neon-turquoise),
-        0 0 16px var(--overload-pink);
-      filter: brightness(1.2); /* ✅ Ligero brillo */
-    }
-
-    .freq-bar:nth-child(even).overload {
-      box-shadow: 
-        0 0 10px var(--accent-color),
-        0 0 16px var(--overload-pink);
-      filter: brightness(1.2);
-    }
-
-    .controls-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 240px;
-      margin: 0 auto 20px;
-    }
-
-    .main-control {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      border: 2px solid var(--neon-turquoise);
-      background: rgba(0, 0, 0, 0.3);
-      color: var(--neon-turquoise);
-      font-size: 1.6rem;
+    .toolbar button {
+      background: transparent;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: 600;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+      transition: all 0.3s ease;
     }
 
-    .main-control.playing {
-      border-color: var(--accent-color);
-      color: var(--accent-color);
-      box-shadow: 0 0 12px rgba(255, 105, 180, 0.6);
+    .toolbar button#chat-toggle {
+      color: #39FF14;
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 12px #39FF14, 0 0 20px rgba(57, 255, 20, 0.6);
     }
 
-    .main-control.playing:hover {
-      box-shadow: 0 0 20px var(--accent-color);
+    .toolbar button#chat-toggle:hover {
+      background: rgba(57, 255, 20, 0.1);
+      box-shadow: 0 0 18px #39FF14, 0 0 30px rgba(57, 255, 20, 0.8);
     }
 
-    .main-control:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px currentColor;
+    .toolbar button#prog-toggle {
+      color: #DA70D6;
+      border: 2px solid #DA70D6;
+      box-shadow: 
+        0 0 12px #DA70D6,
+        0 0 20px rgba(218, 112, 214, 0.6);
     }
 
-    #extra-art {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      animation: pulse-border-turquoise 1.6s infinite alternate;
+    .toolbar button#prog-toggle:hover {
+      background: rgba(218, 112, 214, 0.1);
+      box-shadow: 
+        0 0 18px #DA70D6,
+        0 0 30px rgba(218, 112, 214, 0.8);
     }
 
-    #extra-art img {
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 30px 15px;
+      max-width: 1000px;
+      margin: 0 auto;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
     }
 
-    #sonic_art {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      animation: pulse-border 1.6s infinite alternate;
+    .player-container { grid-area: player; }
+    .portada-dj { grid-area: dj; }
+    .news-container { grid-area: news; }
+    .socials-container { grid-area: socials; }
+
+    main {
+      grid-template-areas:
+        "player dj"
+        "socials news";
     }
 
-    #sonic_art img {
+    .player-container,
+    .portada-dj,
+    .news-container,
+    .socials-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      padding: 25px;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
+      backdrop-filter: blur(2px);
+      text-align: center;
     }
 
-    @keyframes pulse-border {
-      0% {
-        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
-      }
-      100% {
-        box-shadow: 0 0 0 12px rgba(255, 105, 180, 0);
-      }
+    .player-container {
+      border: 3px solid #ff69b4;
+      box-shadow: 0 0 20px #ff69b4, inset 0 0 20px #ff69b4;
     }
 
-    @keyframes pulse-border-turquoise {
-      0% {
-        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
-      }
-      100% {
-        box-shadow: 0 0 0 12px rgba(0, 255, 255, 0);
-      }
+    .portada-dj {
+      border: 3px solid #ffff00;
+      box-shadow: 0 0 20px #ffff00, inset 0 0 20px #ffff00;
     }
 
-    .volume-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+    .portada-dj h2 {
+      color: #ffff00;
+      text-shadow: 0 0 10px #ffff00, 0 0 20px rgba(255, 255, 0, 0.7);
+      margin-bottom: 15px;
+    }
+
+    #sonic_dj {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffff00;
+      text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.7);
+      margin-top: 10px;
+      min-height: 1.5em;
+      animation: blink 1.5s infinite;
+    }
+
+    #dj_profile img {
+      width: 70%;
+      height: 70%;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #ffff00, 0 0 20px rgba(255, 255, 0, 0.6);
+    }
+
+    .news-container {
+      border: 3px solid #40E0D0;
+      box-shadow: 0 0 20px #40E0D0, inset 0 0 20px #40E0D0;
+    }
+
+    .socials-container {
+      border: 3px solid white;
+      box-shadow: 
+        0 0 20px white,
+        inset 0 0 20px white;
+      margin-top: 0;
+    }
+
+    .player-container h2,
+    .news-container h2,
+    .socials-container h2 {
+      margin-bottom: 15px;
+    }
+
+    .news-container h2,
+    .socials-container h2 {
+      color: white;
+      text-shadow: 
+        0 0 2px #40E0D0,
+        0 0 4px #40E0D0,
+        0 0 6px #40E0D0,
+        0 0 12px white,
+        0 0 20px white,
+        0 0 30px rgba(255, 255, 255, 0.7);
+    }
+
+    .news-item {
+      margin-bottom: 25px;
+      color: white;
+      line-height: 1.5;
+    }
+
+    .news-item h3 {
+      color: #40E0D0;
+      margin-bottom: 8px;
+    }
+
+    .news-item:not(:last-child) {
+      border-bottom: 1px solid #40E0D0;
+      padding-bottom: 25px;
+    }
+
+    .socials-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
       margin-top: 15px;
     }
 
-    .volume-icon-btn {
-      background: transparent;
+    .social-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+    }
+
+    .social-item img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .social-whatsapp {
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 10px #39FF14, 0 0 16px rgba(57, 255, 20, 0.6);
+    }
+
+    .social-whatsapp img {
+      border: 2px solid #39FF14;
+      box-shadow: 0 0 8px #39FF14, 0 0 12px rgba(57, 255, 20, 0.5);
+    }
+
+    .social-whatsapp span {
+      color: #39FF14;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #39FF14,
+        0 0 10px rgba(57, 255, 20, 0.8);
+    }
+
+    .social-telegram {
+      border: 2px solid #00FFFF;
+      box-shadow: 0 0 10px #00FFFF, 0 0 16px rgba(0, 255, 255, 0.6);
+    }
+
+    .social-telegram img {
+      border: 2px solid #00FFFF;
+      box-shadow: 0 0 8px #00FFFF, 0 0 12px rgba(0, 255, 255, 0.5);
+    }
+
+    .social-telegram span {
+      color: #00FFFF;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #00FFFF,
+        0 0 10px rgba(0, 255, 255, 0.8);
+    }
+
+    .social-teams {
+      border: 2px solid #BF00FF;
+      box-shadow: 0 0 10px #BF00FF, 0 0 16px rgba(191, 0, 255, 0.6);
+    }
+
+    .social-teams img {
+      border: 2px solid #BF00FF;
+      box-shadow: 0 0 8px #BF00FF, 0 0 12px rgba(191, 0, 255, 0.5);
+    }
+
+    .social-teams span {
+      color: #BF00FF;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #BF00FF,
+        0 0 10px rgba(191, 0, 255, 0.8);
+    }
+
+    .social-tiktok {
+      border: 2px solid #000000;
+      box-shadow: 0 0 10px #000000, 0 0 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .social-tiktok img {
+      border: 2px solid #000000;
+      box-shadow: 0 0 8px #000000, 0 0 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .social-tiktok span {
+      color: white;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #000000,
+        0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .social-instagram {
+      border: 2px solid #E1306C;
+      box-shadow: 0 0 10px #E1306C, 0 0 16px rgba(225, 48, 108, 0.6);
+    }
+
+    .social-instagram img {
+      border: 2px solid #E1306C;
+      box-shadow: 0 0 8px #E1306C, 0 0 12px rgba(225, 48, 108, 0.5);
+    }
+
+    .social-instagram span {
+      color: #E1306C;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #E1306C,
+        0 0 10px rgba(225, 48, 108, 0.8);
+    }
+
+    .social-facebook {
+      border: 2px solid #3b5998;
+      box-shadow: 0 0 10px #3b5998, 0 0 16px rgba(59, 89, 152, 0.6);
+    }
+
+    .social-facebook img {
+      border: 2px solid #3b5998;
+      box-shadow: 0 0 8px #3b5998, 0 0 12px rgba(59, 89, 152, 0.5);
+    }
+
+    .social-facebook span {
+      color: #3b5998;
+      font-size: 0.9rem;
+      text-shadow: 
+        0 0 6px #3b5998,
+        0 0 10px rgba(59, 89, 152, 0.8);
+    }
+
+    #chat-container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      display: none;
+      border: 3px solid #39FF14;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #39FF14, 0 0 30px rgba(57, 255, 20, 0.6);
+      position: relative;
+    }
+
+    #chat-container iframe {
+      width: 100%;
+      height: 500px;
       border: none;
-      color: var(--accent-color);
-      font-size: 1.1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(64, 224, 208, 0.5);
+    }
+
+    #programming-section {
+      display: none;
+    }
+
+    .carousel-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      margin: 30px auto 15px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      text-shadow: 
+        0 0 2px #40E0D0,
+        0 0 4px #40E0D0,
+        0 0 6px #40E0D0,
+        0 0 12px white,
+        0 0 20px white,
+        0 0 30px rgba(255, 255, 255, 0.7);
+    }
+
+    .programming-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      margin: 30px auto 15px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      text-shadow: 
+        0 0 12px #DA70D6,
+        0 0 20px #DA70D6,
+        0 0 30px rgba(218, 112, 214, 0.7);
+    }
+
+    .programming-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 3px solid #DA70D6;
+      box-shadow: 
+        0 0 20px #DA70D6,
+        inset 0 0 20px #DA70D6;
+      border-radius: 12px;
+      padding: 25px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      justify-items: center;
+    }
+
+    .day-item {
+      text-align: center;
       cursor: pointer;
-      transition: transform 0.2s, color 0.2s;
-      width: 24px;
-      height: 24px;
+    }
+
+    .day-item img {
+      width: 100%;
+      max-width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border: 3px solid #DA70D6;
+      border-radius: 8px;
+      box-shadow: 
+        0 0 15px #DA70D6,
+        0 0 25px rgba(218, 112, 214, 0.6);
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .day-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .day-item span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 600;
+      color: #DA70D6;
+      text-shadow: 
+        0 0 8px #DA70D6,
+        0 0 14px rgba(218, 112, 214, 0.7);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 3px solid #DA70D6;
+      box-shadow: 0 0 30px #DA70D6;
+    }
+
+    #close-overlay-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #FF0000;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px #FF0000, 0 0 20px rgba(255, 0, 0, 0.7);
+      z-index: 999;
+      transition: all 0.2s ease;
+    }
+
+    #close-overlay-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 16px #FF0000, 0 0 28px rgba(255, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #FF0000;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px #FF0000, 0 0 20px rgba(255, 0, 0, 0.7);
+      z-index: 1001;
+      transition: all 0.2s ease;
+    }
+
+    .close-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 16px #FF0000, 0 0 28px rgba(255, 0, 0, 0.9);
+      transform: scale(1.1);
+    }
+
+    #sonic_title {
+      margin-top: 20px;
+      font-size: 1.4rem;
+      color: white;
+      text-shadow: 0 0 12px #ff69b4, 0 0 20px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.7);
+      animation: blink 1.5s infinite;
+      font-weight: 600;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
+    }
+
+    .carousel-container {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      animation: scroll 36s linear infinite;
+      padding: 10px 0;
+      width: fit-content;
+      min-width: 100%;
+      will-change: transform;
+    }
+
+    .carousel-track:hover,
+    .carousel-track:active {
+      animation-play-state: paused;
+    }
+
+    .carousel-slide {
+      width: 240px;
+      height: 180px;
+      margin-right: 20px;
+      border: 3px solid #40E0D0;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #40E0D0, 0 0 25px rgba(64, 224, 208, 0.6);
+      background-color: #000;
+      flex-shrink: 0;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .volume-icon-btn:hover {
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-3900px); }
+    }
+
+    footer {
+      background-color: black;
       color: white;
-      transform: scale(1.15);
-    }
-
-    .volume-slider {
-      width: 140px;
-      height: 5px;
-      -webkit-appearance: none;
-      background: rgba(0, 200, 200, 0.2);
-      border-radius: 3px;
-      outline: none;
-    }
-
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--neon-turquoise);
-      cursor: pointer;
-      box-shadow: 0 0 6px var(--neon-turquoise);
-    }
-
-    #sonic_title {
-      font-family: 'Quicksand', sans-serif;
-      font-weight: 600;
-      font-size: 1.3rem;
-      color: #ff69b4;
-      text-shadow:
-        -0.5px -0.5px 0 black,
-        0.5px -0.5px 0 black,
-        -0.5px 0.5px 0 black,
-        0.5px 0.5px 0 black,
-        0 0 6px #ff69b4;
-      letter-spacing: 0.5px;
-      margin-top: 12px;
-      min-height: 1.4em;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
       text-align: center;
-      line-height: 1.3;
+      padding: 15px;
+      font-size: 0.9rem;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    @media (max-width: 900px) {
+      header {
+        padding: 15px 10px;
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        white-space: normal;
+      }
+
+      #subtitle {
+        font-size: 1.0rem;
+        margin-top: 6px;
+        text-shadow: 
+          0 0 6px #40E0D0,
+          0 0 12px #40E0D0,
+          0 0 18px rgba(64, 224, 208, 0.6);
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        grid-template-areas: none;
+        padding: 20px 10px;
+      }
+
+      .player-container {
+        max-width: none;
+        width: 100%;
+        padding: 20px 0;
+        margin-bottom: 20px;
+      }
+
+      .player-container iframe {
+        width: 95% !important;
+        height: 380px;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .portada-dj,
+      .news-container,
+      .socials-container {
+        max-width: 500px;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      #dj_profile img {
+        width: 70%;
+      }
+
+      .carousel-title,
+      .programming-title {
+        font-size: 1.8rem;
+        margin: 25px auto 12px;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+      }
+
+      .carousel-slide {
+        width: 200px;
+        height: 150px;
+        margin-right: 16px;
+      }
+
+      .programming-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        padding: 20px;
+      }
+
+      .day-item img {
+        max-width: 100px;
+        height: 100px;
+      }
+
+      .socials-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .social-item img {
+        width: 50px;
+        height: 50px;
+      }
+
+      #close-overlay-btn,
+      .close-btn {
+        top: 15px;
+        right: 15px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+
+      @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-3240px); }
+      }
+
+      #sonic_title,
+      #sonic_dj {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="cyber-player">
-    <div class="player-background" id="playerBackground"></div>
-    <div class="visualizer" id="visualizer"></div>
-    
-    <div class="controls-row">
-      <button class="main-control" id="controlBtn">
-        <i class="fas fa-play"></i>
-      </button>
-      <div id="extra-art">
-        <img src="https://raw.githubusercontent.com/secretomusical/secretomusical.github.io/refs/heads/main/img/fondorepro.gif" alt="Logo">
-      </div>
-      <div id="sonic_art"></div>
-    </div>
-
-    <div class="volume-wrapper">
-      <button class="volume-icon-btn" id="muteBtn" title="Silenciar">
-        <i class="fas fa-volume-mute"></i>
-      </button>
-      <input type="range" min="0" max="1" step="0.01" value="1.0" class="volume-slider" id="volumeSlider">
-      <button class="volume-icon-btn" id="maxVolBtn" title="Volumen máximo">
-        <i class="fas fa-volume-up"></i>
-      </button>
-    </div>
-
-    <div id="sonic_title">Cargando...</div>
+  <!-- Intro Overlay -->
+  <div id="intro-overlay">
+    <img src="img/KaraokeSecreto.jpg" alt="Intro Karaoke Secreto">
   </div>
 
+  <header>
+    <h1 id="animated-title"></h1>
+    <div id="subtitle">Donde la música te hace renacer</div>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <button id="chat-toggle">Chat</button>
+    <button id="prog-toggle">Programación</button>
+  </div>
+
+  <main>
+    <div class="player-container" id="music-player-container">
+<iframe
+  src="https://secretomusical.com/reproductor/"
+  width="100%"
+  height="380"
+  frameborder="0"
+  allow="autoplay"
+  scrolling="no"
+></iframe>
+    </div>
+
+    <div class="portada-dj">
+      <div id="sonic_dj"></div>
+      <div id="dj_profile"></div>
+    </div>
+
+    <div class="news-container">
+      <h2>Noticias y Anuncios</h2>
+      <div class="news-item">
+        <h3>Karoke Navideño de Secreto Musical 12/12/2025</h3>
+        <p>Ve afinando tu voz y unete al karaoke de Secreto Musical este 12 de diciembre a las 8:00 pm hora Mexico.</p>
+        <p>Envianos tus audios a travez de nuestras redes sociales, Whatsapp, Teams o Telegram</p>
+      </div>
+      <div class="news-item">
+        <h3>¿Quieres formar parte de nuestro staff?</h3>
+        <p>Pregunta a los moderadores de nuestra sala de chat para que formes parte de nuestro Staff.</p>
+      </div>
+    </div>
+
+    <div class="socials-container">
+      <h2>Redes Sociales</h2>
+      <div class="socials-list">
+        <a href="https://wa.me/tu_numero_aqui" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-whatsapp">
+            <img src="img/red1.png" alt="Whatsapp">
+            <span>Whatsapp</span>
+          </div>
+        </a>
+        <a href="https://t.me/SecretoMusical" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-telegram">
+            <img src="img/red2.png" alt="Telegram">
+            <span>Telegram</span>
+          </div>
+        </a>
+        <a href="https://teams.live.com/l/invite/FAA5llM-YgFwqbwjQE?v=g1" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-teams">
+            <img src="img/red3.png" alt="Microsoft Teams">
+            <span>Teams</span>
+          </div>
+        </a>
+        <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-tiktok">
+            <img src="img/red4.png" alt="TikTok">
+            <span>TikTok</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/radiosecretomusical?igsh=ZnZoa2Y3ZXltamY=" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-instagram">
+            <img src="img/red5.png" alt="Instagram">
+            <span>Instagram</span>
+          </div>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61583007170483" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+          <div class="social-item social-facebook">
+            <img src="img/red6.png" alt="Facebook">
+            <span>Facebook</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div id="chat-container">
+    <iframe 
+      src="https://chat.chatzona.org/index.html#nick=&channel=Secreto_Musical" 
+      width="100%" 
+      height="500" 
+      frameborder="0"
+      loading="lazy"
+    ></iframe>
+  </div>
+
+  <div id="programming-section">
+    <h2 class="programming-title">Programación</h2>
+    <div class="programming-container">
+      <div class="day-item" data-img="img/lunes.jpg">
+        <img src="img/lunes.jpg" alt="Lunes">
+        <span>Lunes</span>
+      </div>
+      <div class="day-item" data-img="img/martes.jpg">
+        <img src="img/martes.jpg" alt="Martes">
+        <span>Martes</span>
+      </div>
+      <div class="day-item" data-img="img/miercoles.jpg">
+        <img src="img/miercoles.jpg" alt="Miércoles">
+        <span>Miércoles</span>
+      </div>
+      <div class="day-item" data-img="img/jueves.jpg">
+        <img src="img/jueves.jpg" alt="Jueves">
+        <span>Jueves</span>
+      </div>
+      <div class="day-item" data-img="img/viernes.jpg">
+        <img src="img/viernes.jpg" alt="Viernes">
+        <span>Viernes</span>
+      </div>
+      <div class="day-item" data-img="img/sabado.jpg">
+        <img src="img/sabado.jpg" alt="Sábado">
+        <span>Sábado</span>
+      </div>
+      <div class="day-item" data-img="img/domingo.jpg">
+        <img src="img/domingo.jpg" alt="Domingo">
+        <span>Domingo</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="image-modal" class="modal">
+    <button class="close-btn" id="close-modal">×</button>
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <button id="close-overlay-btn">×</button>
+
+  <h2 class="carousel-title">Staff</h2>
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
+      <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
+      <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
+      <div class="carousel-slide"><img src="img/staff4.jpg" alt="Staff 4"></div>
+      <div class="carousel-slide"><img src="img/staff5.jpg" alt="Staff 5"></div>
+      <div class="carousel-slide"><img src="img/staff6.jpg" alt="Staff 6"></div>
+      <div class="carousel-slide"><img src="img/staff7.jpg" alt="Staff 7"></div>
+      <div class="carousel-slide"><img src="img/staff8.jpg" alt="Staff 8"></div>
+      <div class="carousel-slide"><img src="img/staff9.jpg" alt="Staff 9"></div>
+      <div class="carousel-slide"><img src="img/staff10.jpg" alt="Staff 10"></div>
+      <div class="carousel-slide"><img src="img/staff11.jpg" alt="Staff 11"></div>
+      <div class="carousel-slide"><img src="img/staff12.jpg" alt="Staff 12"></div>
+      <div class="carousel-slide"><img src="img/staff13.jpg" alt="Staff 13"></div>
+      <div class="carousel-slide"><img src="img/staff14.jpg" alt="Staff 14"></div>
+      <div class="carousel-slide"><img src="img/staff15.jpg" alt="Staff 15"></div>
+      <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
+      <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
+      <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
+      <div class="carousel-slide"><img src="img/staff4.jpg" alt="Staff 4"></div>
+      <div class="carousel-slide"><img src="img/staff5.jpg" alt="Staff 5"></div>
+      <div class="carousel-slide"><img src="img/staff6.jpg" alt="Staff 6"></div>
+      <div class="carousel-slide"><img src="img/staff7.jpg" alt="Staff 7"></div>
+      <div class="carousel-slide"><img src="img/staff8.jpg" alt="Staff 8"></div>
+      <div class="carousel-slide"><img src="img/staff9.jpg" alt="Staff 9"></div>
+      <div class="carousel-slide"><img src="img/staff10.jpg" alt="Staff 10"></div>
+      <div class="carousel-slide"><img src="img/staff11.jpg" alt="Staff 11"></div>
+      <div class="carousel-slide"><img src="img/staff12.jpg" alt="Staff 12"></div>
+      <div class="carousel-slide"><img src="img/staff13.jpg" alt="Staff 13"></div>
+      <div class="carousel-slide"><img src="img/staff14.jpg" alt="Staff 14"></div>
+      <div class="carousel-slide"><img src="img/staff15.jpg" alt="Staff 15"></div>
+    </div>
+  </div>
+
+  <footer>
+    Copyright © 2025 | Secreto Musical
+  </footer>
+
+  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const STREAM_URL = 'https://sonic.sistemahost.es/8004/stream';
-      const controlBtn = document.getElementById('controlBtn');
-      const volumeSlider = document.getElementById('volumeSlider');
-      const muteBtn = document.getElementById('muteBtn');
-      const maxVolBtn = document.getElementById('maxVolBtn');
-      const visualizer = document.getElementById('visualizer');
-      const titleDiv = document.getElementById('sonic_title');
-
-      let audio = null;
-      let audioContext = null;
-      let analyser = null;
-      let dataArray = null;
-      let isPlaying = false;
-      let animationId = null;
-
-      const barCount = 15;
-      const bars = [];
-      for (let i = 0; i < barCount; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'freq-bar';
-        bar.style.height = '2px';
-        visualizer.appendChild(bar);
-        bars.push(bar);
+    // Ocultar intro después de 6 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+      const introOverlay = document.getElementById('intro-overlay');
+      if (introOverlay) {
+        setTimeout(() => {
+          introOverlay.style.opacity = '0';
+          introOverlay.style.transition = 'opacity 0.8s ease';
+          setTimeout(() => {
+            introOverlay.remove();
+          }, 800);
+        }, 9000); // 9000 ms = 9 segundos (ajustado para que coincida con tu solicitud inicial de 10 seg)
       }
+    });
+  </script>
 
-      function getBarValue(dataArray, start, end) {
-        let sum = 0;
-        let count = 0;
-        for (let i = start; i <= end && i < dataArray.length; i++) {
-          sum += dataArray[i];
-          count++;
-        }
-        return count > 0 ? sum / count : 0;
-      }
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('chat-toggle');
+      const progToggleBtn = document.getElementById('prog-toggle');
+      const chatContainer = document.getElementById('chat-container');
+      const progSection = document.getElementById('programming-section');
+      const closeOverlayBtn = document.getElementById('close-overlay-btn');
+      const toolbar = document.getElementById('toolbar');
 
-      function animateFFT() {
-        if (!isPlaying || !analyser) {
-          animationId = requestAnimationFrame(animateFFT);
-          return;
-        }
-
-        analyser.getByteFrequencyData(dataArray);
-
-        const ranges = [
-          [0, 2], [2, 4], [4, 6], [6, 8], [8, 10],
-          [10, 14], [14, 18], [18, 24], [24, 30], [30, 40],
-          [40, 54], [54, 70], [70, 88], [88, 106], [106, 127]
-        ];
-
-        for (let i = 0; i < barCount; i++) {
-          const [start, end] = ranges[i];
-          const avg = getBarValue(dataArray, start, end);
-          const height = Math.max(2, (avg / 255) * 70);
-          bars[i].style.height = `${height}px`;
-
-          // ✅ Umbral más sensible: >62px (≈89%)
-          if (height > 62) {
-            bars[i].classList.add('overload');
-          } else {
-            bars[i].classList.remove('overload');
-          }
-        }
-
-        animationId = requestAnimationFrame(animateFFT);
-      }
-
-      async function playAudio() {
-        if (audio) { audio.pause(); audio = null; }
-        if (audioContext) { audioContext.close(); audioContext = null; }
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        audio = new Audio(STREAM_URL);
-        audio.crossOrigin = 'anonymous';
-        audio.volume = 1.0;
-
-        const source = audioContext.createMediaElementSource(audio);
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-
-        try {
-          await audio.play();
-          isPlaying = true;
-          controlBtn.innerHTML = '<i class="fas fa-stop"></i>';
-          controlBtn.classList.add('playing');
-          animateFFT();
-        } catch (err) {
-          console.error('Reproducción fallida:', err);
-          stopAudio();
-        }
-      }
-
-      function stopAudio() {
-        if (audio) { audio.pause(); audio = null; }
-        if (audioContext) { audioContext.close(); audioContext = null; }
-        isPlaying = false;
-        controlBtn.innerHTML = '<i class="fas fa-play"></i>';
-        controlBtn.classList.remove('playing');
-        bars.forEach(bar => {
-          bar.style.height = '2px';
-          bar.classList.remove('overload');
-        });
-      }
-
-      function setVolume(vol) {
-        volumeSlider.value = vol;
-        if (audio) audio.volume = vol;
-      }
-
-      muteBtn.addEventListener('click', () => setVolume(0));
-      maxVolBtn.addEventListener('click', () => setVolume(1.0));
-      volumeSlider.addEventListener('input', () => setVolume(parseFloat(volumeSlider.value)));
-
-      controlBtn.addEventListener('click', () => {
-        if (isPlaying) {
-          stopAudio();
+      function updateCloseButton() {
+        const chatVisible = chatContainer.style.display === 'block';
+        const progVisible = progSection.style.display === 'block';
+        if (chatVisible || progVisible) {
+          closeOverlayBtn.style.display = 'flex';
         } else {
-          playAudio();
+          closeOverlayBtn.style.display = 'none';
+        }
+      }
+
+      toggleBtn.addEventListener('click', function() {
+        const isVisible = chatContainer.style.display === 'block';
+        if (isVisible) {
+          chatContainer.style.display = 'none';
+          toggleBtn.textContent = 'Chat';
+        } else {
+          chatContainer.style.display = 'block';
+          toggleBtn.textContent = 'Ocultar Chat';
+          chatContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        updateCloseButton();
+      });
+
+      progToggleBtn.addEventListener('click', function() {
+        const isVisible = progSection.style.display === 'block';
+        if (isVisible) {
+          progSection.style.display = 'none';
+          progToggleBtn.textContent = 'Programación';
+        } else {
+          progSection.style.display = 'block';
+          progToggleBtn.textContent = 'Ocultar Programación';
+          progSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        updateCloseButton();
+      });
+
+      closeOverlayBtn.addEventListener('click', function() {
+        let wasClosed = false;
+
+        if (chatContainer.style.display === 'block') {
+          chatContainer.style.display = 'none';
+          toggleBtn.textContent = 'Chat';
+          wasClosed = true;
+        }
+        if (progSection.style.display === 'block') {
+          progSection.style.display = 'none';
+          progToggleBtn.textContent = 'Programación';
+          wasClosed = true;
+        }
+
+        if (wasClosed) {
+          toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        closeOverlayBtn.style.display = 'none';
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const dayItems = document.querySelectorAll('.day-item');
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      const closeBtn = document.getElementById('close-modal');
+
+      dayItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const fullImg = this.getAttribute('data-img');
+          modalImg.src = fullImg;
+          modal.style.display = 'flex';
+        });
+      });
+
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
         }
       });
 
-      setTimeout(() => {
-        if (titleDiv.textContent.trim() === 'Cargando...' || titleDiv.textContent.trim() === '') {
-          titleDiv.textContent = '— EN VIVO —';
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+          modal.style.display = 'none';
         }
-      }, 1000);
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const titleElement = document.getElementById('animated-title');
+      const fullText = "Secreto Musical";
+      const words = fullText.split(' ');
+      let html = '';
+
+      for (let i = 0; i < fullText.length; i++) {
+        const char = fullText[i];
+        if (char === ' ') {
+          html += '<span class="letter">&nbsp;</span>';
+        } else {
+          const wordClass = i < words[0].length ? 'secreto' : 'musical';
+          html += `<span class="letter ${wordClass}">${char}</span>`;
+        }
+      }
+
+      titleElement.innerHTML = html;
+      const letters = titleElement.querySelectorAll('.letter');
+
+      letters.forEach((letter, index) => {
+        setTimeout(() => {
+          letter.style.animation = `letterBlink 0.6s infinite`;
+          setTimeout(() => {
+            letter.style.animation = 'none';
+            letter.style.opacity = '1';
+          }, 1200 + index * 150);
+        }, index * 150);
+      });
     });
   </script>
 </body>
