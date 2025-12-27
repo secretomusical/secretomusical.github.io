@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106'></script>
+  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106  '></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Secreto Musical: radio en línea con programación diaria, DJ en vivo, chat. ¡Secreto Musical donde la música te hace renacer!">
   <title>Secreto Musical</title>
   <link rel="icon" type="image/x-icon" href="img/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand  :wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -33,7 +33,6 @@
 
     header {
       position: relative;
-      /* 🔽 Altura fija eliminada — ahora se ajusta al contenido */
       background-image: url('img/cabecera.png');
       background-size: cover;
       background-position: center;
@@ -45,7 +44,7 @@
       box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
       width: 100vw;
       margin-left: calc(-50vw + 50%);
-      padding: 20px 15px; /* Ajuste de espaciado para equilibrio visual */
+      padding: 20px 15px;
     }
 
     h1 {
@@ -136,7 +135,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 30px 15px;
-      max-width: 1000px;
+      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
       margin: 0 auto;
       width: 100%;
     }
@@ -380,7 +379,7 @@
 
     #chat-container {
       width: 90%;
-      max-width: 1000px;
+      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
       margin: 20px auto;
       display: none;
       border: 3px solid #39FF14;
@@ -441,7 +440,7 @@
       border-radius: 12px;
       padding: 25px;
       width: 90%;
-      max-width: 1000px;
+      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
       margin: 0 auto 30px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -658,6 +657,7 @@
         flex-direction: column;
         grid-template-areas: none;
         padding: 20px 10px;
+        max-width: none; /* En móviles no aplica el ancho fijo */
       }
 
       .player-container {
@@ -703,6 +703,7 @@
       .programming-container {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         padding: 20px;
+        max-width: none;
       }
 
       .day-item img {
@@ -754,7 +755,7 @@
   <main>
     <div class="player-container" id="music-player-container">
 <iframe
-  src="https://secretomusical.com/reproductor/"
+  src="https://secretomusical.com/reproductor/  "
   width="100%"
   height="380"
   frameborder="0"
@@ -783,37 +784,37 @@
     <div class="socials-container">
       <h2>Redes Sociales</h2>
       <div class="socials-list">
-        <a href="https://wa.me/tu_numero_aqui" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://wa.me/tu_numero_aqui  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-whatsapp">
             <img src="img/red1.png" alt="Whatsapp">
             <span>Whatsapp</span>
           </div>
         </a>
-        <a href="https://t.me/SecretoMusical" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://t.me/SecretoMusical  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-telegram">
             <img src="img/red2.png" alt="Telegram">
             <span>Telegram</span>
           </div>
         </a>
-        <a href="https://teams.live.com/l/invite/FAA5llM-YgFwqbwjQE?v=g1" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://teams.live.com/l/invite/FAA5llM-YgFwqbwjQE?v=g1  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-teams">
             <img src="img/red3.png" alt="Microsoft Teams">
             <span>Teams</span>
           </div>
         </a>
-        <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-tiktok">
             <img src="img/red4.png" alt="TikTok">
             <span>TikTok</span>
           </div>
         </a>
-        <a href="https://www.instagram.com/radiosecretomusical?igsh=ZnZoa2Y3ZXltamY=" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.instagram.com/radiosecretomusical?igsh=ZnZoa2Y3ZXltamY=  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-instagram">
             <img src="img/red5.png" alt="Instagram">
             <span>Instagram</span>
           </div>
         </a>
-        <a href="https://www.facebook.com/profile.php?id=61583007170483" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.facebook.com/profile.php?id=61583007170483  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-facebook">
             <img src="img/red6.png" alt="Facebook">
             <span>Facebook</span>
@@ -825,7 +826,7 @@
 
   <div id="chat-container">
     <iframe 
-      src="https://chat.chatzona.org/index.html#nick=&channel=Secreto_Musical" 
+      src="https://chat.chatzona.org/index.html#nick=&channel=Secreto_Musical  " 
       width="100%" 
       height="500" 
       frameborder="0"
@@ -916,8 +917,8 @@
     Copyright © 2025 | Secreto Musical
   </footer>
 
-  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
-  <script src="https://sistemahost.com/playergenerator/js/player.js"></script>
+  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js  "></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js  "></script>
   <script> 
     // El reproductor anterior ha sido reemplazado, así que este script ya no se aplica.
     // Puedes eliminarlo si ya no lo usas.
@@ -1057,3 +1058,4 @@
   </script>
 </body>
 </html>
+
