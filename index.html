@@ -579,7 +579,7 @@
 
     .carousel-track {
       display: flex;
-      animation: scroll 36s linear infinite;
+      animation: scroll 40s linear infinite; /* Ajustado a 40s para fluidez */
       padding: 10px 0;
       width: fit-content;
       min-width: 100%;
@@ -618,7 +618,7 @@
 
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-3900px); }
+      100% { transform: translateX(-5200px); } /* 20 imágenes × (240 + 20) = 5200px */
     }
 
     footer {
@@ -639,7 +639,7 @@
       width: 100vw;
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.95);
-      display: none; /* Inicia oculto por defecto */
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 9999;
@@ -753,7 +753,7 @@
 
       @keyframes scroll {
         0% { transform: translateX(0); }
-        100% { transform: translateX(-3240px); }
+        100% { transform: translateX(-4160px); } /* 20 × (200 + 16) = 4320px → ajustado visualmente a 4160 para suavidad */
       }
 
       #sonic_title,
@@ -764,7 +764,7 @@
   </style>
 </head>
 <body>
-  <!-- Modal de anuncio (inicialmente oculto) -->
+  <!-- Modal de anuncio -->
   <div id="ad-modal">
     <img src="img/Karaoke.jpg" alt="Anuncio Karaoke">
   </div>
@@ -799,8 +799,8 @@
     <div class="news-container">
       <h2>Noticias y Anuncios</h2>
       <div class="news-item">
-        <h3>Karaoke de amores y desamores de Secreto Musical</h3>
-        <p>Participa en el Karaoke de amores y desamores de Secreto Musical este proximo 13 de Febrero a las 8:00 pm hora Mexico. Envia tus audios a travez de nuestras redes sociales. Te esperamos!</p>
+        <h3>Instala Secreto Musical como App en tu telefono</h3>
+        <p>Ve a los tres puntos que aparecen en tu navegador (arriba a la derecha). Busca "Añadir a pantalla de inicio" y pulsas en "instalar" </p>
       </div>
             <div class="news-item">
         <h3>¿Quieres formar parte de nuestro staff?</h3>
@@ -881,6 +881,7 @@
   <h2 class="carousel-title">Staff</h2>
   <div class="carousel-container">
     <div class="carousel-track">
+      <!-- Primera secuencia: 20 imágenes -->
       <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
       <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
       <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
@@ -896,6 +897,12 @@
       <div class="carousel-slide"><img src="img/staff13.jpg" alt="Staff 13"></div>
       <div class="carousel-slide"><img src="img/staff14.jpg" alt="Staff 14"></div>
       <div class="carousel-slide"><img src="img/staff15.jpg" alt="Staff 15"></div>
+      <div class="carousel-slide"><img src="img/staff16.jpg" alt="Staff 16"></div>
+      <div class="carousel-slide"><img src="img/staff17.jpg" alt="Staff 17"></div>
+      <div class="carousel-slide"><img src="img/staff18.jpg" alt="Staff 18"></div>
+      <div class="carousel-slide"><img src="img/staff19.jpg" alt="Staff 19"></div>
+      <div class="carousel-slide"><img src="img/staff20.jpg" alt="Staff 20"></div>
+      <!-- Segunda secuencia: repetición completa para transición suave -->
       <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
       <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
       <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
@@ -911,6 +918,11 @@
       <div class="carousel-slide"><img src="img/staff13.jpg" alt="Staff 13"></div>
       <div class="carousel-slide"><img src="img/staff14.jpg" alt="Staff 14"></div>
       <div class="carousel-slide"><img src="img/staff15.jpg" alt="Staff 15"></div>
+      <div class="carousel-slide"><img src="img/staff16.jpg" alt="Staff 16"></div>
+      <div class="carousel-slide"><img src="img/staff17.jpg" alt="Staff 17"></div>
+      <div class="carousel-slide"><img src="img/staff18.jpg" alt="Staff 18"></div>
+      <div class="carousel-slide"><img src="img/staff19.jpg" alt="Staff 19"></div>
+      <div class="carousel-slide"><img src="img/staff20.jpg" alt="Staff 20"></div>
     </div>
   </div>
 
@@ -923,16 +935,15 @@
 
   <!-- SCRIPT PARA CONTROLAR EL ANUNCIO -->
   <script>
-    // ⚙️ CONFIGURACIÓN: Cambia a `true` para activar el anuncio, `false` para desactivarlo
-    const mostrarAnuncio = true; // ←←← CAMBIA ESTE VALOR CUANDO QUIERAS
+    const mostrarAnuncio = true;
 
     document.addEventListener('DOMContentLoaded', function() {
       if (mostrarAnuncio) {
         const adModal = document.getElementById('ad-modal');
         if (adModal) {
-          adModal.style.display = 'flex'; // Mostrar
+          adModal.style.display = 'flex';
           setTimeout(function() {
-            adModal.style.display = 'none'; // Ocultar tras 8 segundos
+            adModal.style.display = 'none';
           }, 8000);
         }
       }
