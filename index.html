@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106  '></script>
+  <script id='sonic_js' data-port='8004' src='https://sonic.sistemahost.es/cp/widgets.js?r=106    '></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Secreto Musical: radio en línea con programación diaria, DJ en vivo, chat. ¡Secreto Musical donde la música te hace renacer!">
   <title>Secreto Musical</title>
   <link rel="icon" type="image/x-icon" href="img/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand  :wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -135,7 +135,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 30px 15px;
-      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
+      max-width: 1300px;
       margin: 0 auto;
       width: 100%;
     }
@@ -379,7 +379,7 @@
 
     #chat-container {
       width: 90%;
-      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
+      max-width: 1300px;
       margin: 20px auto;
       display: none;
       border: 3px solid #39FF14;
@@ -440,7 +440,7 @@
       border-radius: 12px;
       padding: 25px;
       width: 90%;
-      max-width: 1300px; /* ← Aumentado de 1000px a 1300px */
+      max-width: 1300px;
       margin: 0 auto 30px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -631,6 +631,28 @@
       margin-left: calc(-50vw + 50%);
     }
 
+    /* Estilo para el anuncio emergente */
+    #ad-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.95);
+      display: none; /* Inicia oculto por defecto */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #ad-modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border: 4px solid white;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+    }
+
     @media (max-width: 900px) {
       header {
         height: auto;
@@ -657,7 +679,7 @@
         flex-direction: column;
         grid-template-areas: none;
         padding: 20px 10px;
-        max-width: none; /* En móviles no aplica el ancho fijo */
+        max-width: none;
       }
 
       .player-container {
@@ -742,6 +764,11 @@
   </style>
 </head>
 <body>
+  <!-- Modal de anuncio (inicialmente oculto) -->
+  <div id="ad-modal">
+    <img src="img/Karaoke.jpg" alt="Anuncio Karaoke">
+  </div>
+
   <header>
     <h1 id="animated-title"></h1>
     <div id="subtitle">Donde la música te hace renacer</div>
@@ -755,7 +782,7 @@
   <main>
     <div class="player-container" id="music-player-container">
 <iframe
-  src="https://secretomusical.com/reproductor/  "
+  src="https://secretomusical.com/reproductor/    "
   width="100%"
   height="380"
   frameborder="0"
@@ -784,37 +811,37 @@
     <div class="socials-container">
       <h2>Redes Sociales</h2>
       <div class="socials-list">
-        <a href="https://wa.me/tu_numero_aqui  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://wa.me/tu_numero_aqui    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-whatsapp">
             <img src="img/red1.png" alt="Whatsapp">
             <span>Whatsapp</span>
           </div>
         </a>
-        <a href="https://t.me/SecretoMusical  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://t.me/SecretoMusical    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-telegram">
             <img src="img/red2.png" alt="Telegram">
             <span>Telegram</span>
           </div>
         </a>
-        <a href="https://teams.live.com/l/invite/FAA5llM-YgFwqbwjQE?v=g1  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://teams.live.com/l/invite/FAA5llM-YgFwqbwjQE?v=g1    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-teams">
             <img src="img/red3.png" alt="Microsoft Teams">
             <span>Teams</span>
           </div>
         </a>
-        <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.tiktok.com/@secretomusical3?_r=1&_t=ZM-919QHJzOyoG    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-tiktok">
             <img src="img/red4.png" alt="TikTok">
             <span>TikTok</span>
           </div>
         </a>
-        <a href="https://www.instagram.com/radiosecretomusical?igsh=ZnZoa2Y3ZXltamY=  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.instagram.com/radiosecretomusical?igsh=ZnZoa2Y3ZXltamY=    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-instagram">
             <img src="img/red5.png" alt="Instagram">
             <span>Instagram</span>
           </div>
         </a>
-        <a href="https://www.facebook.com/profile.php?id=61583007170483  " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+        <a href="https://www.facebook.com/profile.php?id=61583007170483    " target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
           <div class="social-item social-facebook">
             <img src="img/red6.png" alt="Facebook">
             <span>Facebook</span>
@@ -826,7 +853,7 @@
 
   <div id="chat-container">
     <iframe 
-      src="https://chat.chatzona.org/index.html#nick=&channel=Secreto_Musical  " 
+      src="https://chat.chatzona.org/index.html#nick=&channel=Secreto_Musical    " 
       width="100%" 
       height="650" 
       frameborder="0"
@@ -854,7 +881,6 @@
   <h2 class="carousel-title">Staff</h2>
   <div class="carousel-container">
     <div class="carousel-track">
-      <!-- Primera secuencia: 15 imágenes -->
       <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
       <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
       <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
@@ -870,7 +896,6 @@
       <div class="carousel-slide"><img src="img/staff13.jpg" alt="Staff 13"></div>
       <div class="carousel-slide"><img src="img/staff14.jpg" alt="Staff 14"></div>
       <div class="carousel-slide"><img src="img/staff15.jpg" alt="Staff 15"></div>
-      <!-- Segunda secuencia: repetición completa para transición suave -->
       <div class="carousel-slide"><img src="img/staff1.jpg" alt="Staff 1"></div>
       <div class="carousel-slide"><img src="img/staff2.jpg" alt="Staff 2"></div>
       <div class="carousel-slide"><img src="img/staff3.jpg" alt="Staff 3"></div>
@@ -893,11 +918,25 @@
     Copyright © 2025 | Secreto Musical
   </footer>
 
-  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js  "></script>
-  <script src="https://sistemahost.com/playergenerator/js/player.js  "></script>
-  <script> 
-    // El reproductor anterior ha sido reemplazado, así que este script ya no se aplica.
-    // Puedes eliminarlo si ya no lo usas.
+  <script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js    "></script>
+  <script src="https://sistemahost.com/playergenerator/js/player.js    "></script>
+
+  <!-- SCRIPT PARA CONTROLAR EL ANUNCIO -->
+  <script>
+    // ⚙️ CONFIGURACIÓN: Cambia a `true` para activar el anuncio, `false` para desactivarlo
+    const mostrarAnuncio = true; // ←←← CAMBIA ESTE VALOR CUANDO QUIERAS
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (mostrarAnuncio) {
+        const adModal = document.getElementById('ad-modal');
+        if (adModal) {
+          adModal.style.display = 'flex'; // Mostrar
+          setTimeout(function() {
+            adModal.style.display = 'none'; // Ocultar tras 8 segundos
+          }, 8000);
+        }
+      }
+    });
   </script>
 
   <script>
@@ -1034,4 +1073,3 @@
   </script>
 </body>
 </html>
-
